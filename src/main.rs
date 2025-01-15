@@ -53,22 +53,25 @@ impl MyApp {
     fn generate_maze(&mut self) {
         let rows = self.grid_size;
         let cols = self.grid_size;
-        self.grid = vec![vec![true; cols]; rows]; // Инициализация сетки (все стены)
-        
+    
+        // Инициализация сетки (все стены)
+        self.grid = vec![vec![true; cols]; rows];
+    
         // Случайный выбор входа и выхода
         let mut rng = thread_rng();
         self.entrance_row = rng.gen_range(1..rows - 1);
         self.exit_row = rng.gen_range(1..rows - 1);
-        
+    
         self.grid[self.entrance_row][0] = false; // Вход слева
         self.grid[self.exit_row][cols - 1] = false; // Выход справа
-
+    
+        // Стартовая точка для генерации лабиринта
         let start_row = 1;
         let start_col = 1;
         self.grid[start_row][start_col] = false; // Проход
         let mut stack = Vec::new();
         stack.push((start_row, start_col));
-
+    
         while let Some((row, col)) = stack.pop() {
             let mut neighbors = vec![
                 (row.wrapping_sub(2), col, row.wrapping_sub(1), col), // Север
@@ -77,6 +80,7 @@ impl MyApp {
                 (row, col + 2, row, col + 1), // Восток
             ];
             neighbors.shuffle(&mut rng);
+    
             for (nr, nc, wr, wc) in neighbors {
                 if nr > 0 && nr < rows && nc > 0 && nc < cols && self.grid[nr][nc] {
                     self.grid[nr][nc] = false; // Проход
@@ -85,14 +89,11 @@ impl MyApp {
                 }
             }
         }
-
-        // Убедимся, что начальная и конечная точки открыты
-        self.grid[1][1] = false; // Проход
-        self.path.clear(); // Очистка пути при новой генерации
-
-        // Проверка, что лабиринт имеет решение
+    
+        // Гарантия, что лабиринт имеет решение
         self.ensure_solvable();
     }
+    
 
     fn ensure_solvable(&mut self) {
         let start = (self.entrance_row, 0);
@@ -178,11 +179,11 @@ impl eframe::App for MyApp {
 
                     ui.label("Размер лабиринта:");
                     let mut new_size = self.grid_size;
-                    if ui.add(egui::Slider::new(&mut new_size, 5..=51).step_by(2.0)).changed() {
-                        self.grid_size = new_size;
+                    if ui.add(egui::Slider::new(&mut new_size, 5..=51)).changed() {
+                        // Приводим размер к нечетному значению
+                        self.grid_size = if new_size % 2 == 0 { new_size + 1 } else { new_size };
                         self.generate_maze(); // Перегенерация лабиринта при изменении размера
                     }
-
                     ui.label("Цвет пути:");
                     ui.color_edit_button_srgba(&mut self.path_color);
 
