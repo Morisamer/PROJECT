@@ -106,6 +106,7 @@ impl MyApp {
     
         self.path.clear(); 
     }
+
     fn solve_maze(&mut self) {
         let start = (self.entrance_row, 0); // Вход
         let end = (self.exit_row, self.grid_size - 1); // Выход
@@ -127,14 +128,14 @@ impl MyApp {
 
         while let Some(Node { row, col, cost }) = heap.pop() {
             if (row, col) == end {
-                break; // Достигли конечной точки
+                break; 
             }
 
             let neighbors = [
-                (row.wrapping_sub(1), col), // Верхний
-                (row + 1, col),            // Нижний
-                (row, col.wrapping_sub(1)), // Левый
-                (row, col + 1),            // Правый
+                (row.wrapping_sub(1), col), 
+                (row + 1, col),            
+                (row, col.wrapping_sub(1)), 
+                (row, col + 1),          
             ];
 
             for &(n_row, n_col) in &neighbors {
@@ -193,7 +194,7 @@ impl eframe::App for MazeApp {
 
                     ui.label("Размер лабиринта:");
                     let mut new_size = self.inner.grid_size;
-                    if ui.add(egui::Slider::new(&mut new_size, 5..=51)).changed() {
+                    if ui.add(egui::Slider::new(&mut new_size, 5..=251)).changed() {
                         self.inner.grid_size = if new_size % 2 == 0 { new_size + 1 } else { new_size };
                         self.inner.path.clear();
                         self.inner.generate_maze();
