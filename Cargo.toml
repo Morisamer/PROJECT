@@ -2,10 +2,19 @@
 name = "dijkstra_maze"
 version = "0.1.0"
 edition = "2021"
+[[bin]]
+name = "snake_game"
+path = "src/snake_game.rs"
 
 [dependencies]
 eframe = "0.23"
-rand = "0.8"
+ggez = "0.6.0"
+nalgebra = "0.29.0"
 egui = "0.23"
 image = "0.24"
+piston_window = "0.123.0"
+rodio = "*"
+winit = "0.26"
+rand ="*"
+sdl2 = { version = "0.32.0", features = ["ttf","image"] }
 winapi = { version = "0.3", features = ["winuser", "windef"] }

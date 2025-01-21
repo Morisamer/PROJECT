@@ -22,8 +22,8 @@ impl PartialOrd for Node {
 }
 
 pub struct MyApp {
-    grid: Vec<Vec<bool>>,        // true = стена (белый), false = проход (черный)
-    path: Vec<(usize, usize)>,   // Список координат для пути
+    grid: Vec<Vec<bool>>,        
+    path: Vec<(usize, usize)>,   
     grid_size: usize,
     path_color: egui::Color32,
     wall_color: egui::Color32,
@@ -34,8 +34,8 @@ pub struct MyApp {
 
 impl Default for MyApp {
     fn default() -> Self {
-        let grid_size = 21; // Размер сетки (нечетное число для правильной работы алгоритма)
-        let grid = vec![vec![false; grid_size]; grid_size]; // Инициализация сетки (все проходы)
+        let grid_size = 21; 
+        let grid = vec![vec![false; grid_size]; grid_size]; 
         MyApp {
             grid,
             path: Vec::new(),
@@ -43,8 +43,8 @@ impl Default for MyApp {
             path_color: egui::Color32::GREEN,
             wall_color: egui::Color32::WHITE,
             passage_color: egui::Color32::BLACK,
-            entrance_row: 1,        // Строка для входа по умолчанию
-            exit_row: grid_size - 2 // Строка для выхода по умолчанию
+            entrance_row: 1,       
+            exit_row: grid_size - 2 
         }
     }
 }
@@ -108,11 +108,11 @@ impl MyApp {
     }
 
     fn solve_maze(&mut self) {
-        let start = (self.entrance_row, 0); // Вход
-        let end = (self.exit_row, self.grid_size - 1); // Выход
+        let start = (self.entrance_row, 0);
+        let end = (self.exit_row, self.grid_size - 1); 
         self.path = self.dijkstra(start, end);
 
-        // Проверка, что путь найден
+
         if self.path.is_empty() {
             println!("Путь не найден! Возможно, лабиринт некорректен.");
         }
@@ -163,7 +163,7 @@ impl MyApp {
 }
 
 pub struct MazeApp {
-    inner: MyApp, // Обертка для основной логики
+    inner: MyApp, 
 }
 
 impl Default for MazeApp {
