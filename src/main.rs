@@ -13,6 +13,7 @@ mod snake;
 enum AppState {
     Menu,
     MazeGame(maze::MazeApp),
+    SnakeGame,
 }
 
 pub struct MyApp {
@@ -139,7 +140,7 @@ impl MyApp {
 fn configure_fonts(ctx: &egui::Context) {
     let mut fonts = egui::FontDefinitions::default();
 
-    let font_data = include_bytes!(r"C:\Users\SystemX\dijkstra_maze\pixel_font.ttf");
+    let font_data = include_bytes!(r"C:\Users\Ghorno\project6\PROJECT\pixel_font.ttf");
     fonts.font_data.insert(
         "pixel_font".to_owned(),
         egui::FontData::from_static(font_data),
@@ -159,7 +160,7 @@ fn configure_fonts(ctx: &egui::Context) {
 }
 
 fn load_background(ctx: &egui::Context) -> TextureHandle {
-    let image_data = include_bytes!(r"C:\Users\SystemX\dijkstra_maze\hz.png");
+    let image_data = include_bytes!(r"C:\Users\Ghorno\project6\PROJECT\hz.png");
     let image = ::image::load_from_memory(image_data).expect("Не удалось загрузить изображение");
     let image = image.into_rgba8();
     let size = [image.width() as usize, image.height() as usize];
